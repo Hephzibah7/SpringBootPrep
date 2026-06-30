@@ -3,6 +3,8 @@ package com.example.demo;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
@@ -54,7 +56,15 @@ Using spring boot you can create small microservice which can be independently d
 
 	private MyClass myclass;
 	public static void main(String[] args) {
+		//here we are using the object of the Myclass directly without calling or creating any container
 		SpringApplication.run(DemoApplication.class, args); //when spring initiates the application, it creates objects and calls them
+
+
+		//using applicationcontext
+		ApplicationContext context=new AnnotationConfigApplicationContext(AppConfig.class);
+
+		Employee employee=context.getBean(Employee.class);
+		employee.display();
 	}
 
 	public DemoApplication(MyClass myclass){
