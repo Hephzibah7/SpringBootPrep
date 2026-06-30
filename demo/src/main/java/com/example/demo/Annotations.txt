@@ -222,3 +222,14 @@ public class MyFeatureConfig {
 }
 
 
+
+Flow of Spring boot-
+
+Inititalization (when spring boot starts it always searches for the class annotated with springbootannotations)
+Spring Application Context Creation (spring boot creates application context which is a container helps to manage beans)
+Auto Configuration (Spring boot auto configures the beans and conditional beans)
+Externalized configuration (spring boot configures using environment variables)
+Embedded web server initailization (if the application is web, it initailizes web server tomcat)
+application startup (runs @postconstruct methods)
+application ready
+
