@@ -51,13 +51,19 @@ Using spring boot you can create small microservice which can be independently d
 
 	Remember- port numbers or any databse settings can be done in target->classes-<applicationproperties
 	*/
+
+	private MyClass myclass;
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(DemoApplication.class, args); //when spring initiates the application, it creates objects and calls them
 	}
 
+	public DemoApplication(MyClass myclass){
+		this.myclass=myclass;
+	}
+ //spring starts the application
 	@Override
 	public void run(String... arg) throws Exception{
-		System.out.println("hello");
+		myclass.display();
 	}
 	
 
