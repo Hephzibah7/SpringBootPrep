@@ -1,0 +1,224 @@
+//Notes from codingshuttle
+
+1. @SpringBootApplication
+Explanation:
+@SpringBootApplication is the cornerstone annotation of any Spring Boot application. 
+It is a convenience annotation that combines three other annotations: @SpringBootConfiguration, @EnableAutoConfiguration, and @ComponentScan. 
+This annotation marks the main class of a Spring Boot application and triggers the auto-configuration, component scanning, and other Spring Boot features.
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MyApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+}
+
+2. @RestController
+Explanation:
+@RestController is used to create RESTful web services in Spring Boot. It is a combination of @Controller and @ResponseBody. This annotation indicates that the class's methods should return JSON or XML responses directly, bypassing the need for view resolution.
+
+Usage Example:
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class GreetingController {
+
+    @GetMapping("/greeting")
+    public String greet() {
+        return "Hello, World!";
+    }
+}
+
+3. @Autowired
+Explanation:
+@Autowired is used to inject dependencies automatically. It can be applied to fields, constructors, or setter methods.
+ Spring Boot will automatically resolve and inject the appropriate bean into the annotated field or method.
+ import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Component //through constructors
+public class A {
+    private final B b;
+
+    @Autowired
+    public A(B b) {
+        this.b = b;
+    }
+
+    public void doSomething() {
+        b.performTask();
+    }
+}
+
+@Component //through setters
+public class A {
+    private B b;
+
+    @Autowired
+    public void setB(B b) {
+        this.b = b;
+    }
+
+    public void doSomething() {
+        b.performTask();
+    }
+}
+
+@Component
+public class A { //field injection
+    @Autowired
+    private B b;
+
+    public void doSomething() {
+        b.performTask();
+    }
+}
+
+4. @Component
+Explanation:
+@Component is a generic stereotype annotation used to mark a class as a Spring-managed component. 
+Classes annotated with @Component are automatically detected and registered as beans by Spring’s component scanning.
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyComponent {
+
+    public void performTask() {
+        System.out.println("Task performed!");
+    }
+}
+
+5. @Service
+Explanation:
+@Service is a specialization of @Component and is used to mark a class as a service provider. 
+This annotation indicates that the class contains business logic.
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class CalculationService {
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+
+6. @Repository
+Explanation:
+@Repository is another specialization of @Component, typically used to indicate that a class is a Data Access Object (DAO). 
+It also provides exception translation, converting database-related exceptions into Spring’s DataAccessException.
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    // Custom query methods can be added here
+}
+
+7. @Configuration
+Explanation:
+@Configuration indicates that a class contains Spring configuration. 
+It is used to define beans and configure dependencies within the Spring context.
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public MyService myService() {
+        return new MyService();
+    }
+}
+
+8. @Value
+Explanation:
+@Value is used to inject values into fields from properties files or environment variables. 
+This annotation helps to externalize configuration.
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyComponent {
+
+    @Value("${app.name}")
+    private String appName;
+
+    public void printAppName() {
+        System.out.println("Application Name: " + appName);
+    }
+}
+
+9. @RequestMapping
+Explanation:
+@RequestMapping is used to map HTTP requests to handler methods in Spring MVC and REST controllers. 
+It can be used at both the class level and the method level.
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api")
+public class ApiController {
+
+    @RequestMapping("/hello")
+    public String sayHello() {
+        return "Hello, API!";
+    }
+}
+
+10. @GetMapping, @PostMapping, @PutMapping, @DeleteMapping
+Explanation:
+These annotations are shortcuts for @RequestMapping for specific HTTP methods: GET, POST, PUT, and DELETE. 
+They are used to map requests to handler methods.
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class UserController {
+
+    @GetMapping("/user")
+    public String getUser() {
+        return "Fetching user";
+    }
+
+    @PostMapping("/user")
+    public String createUser() {
+        return "Creating user";
+    }
+}
+
+11. @ConditionalOnProperty
+Explanation:
+@ConditionalOnProperty is an annotation used in Spring Boot to conditionally include a bean or configuration based on the presence and value of a specific property in the application's configuration file (e.g., application.properties or application.yml). This annotation is particularly useful for enabling or disabling features based on configuration settings.
+
+Attributes:
+prefix: The prefix of the property to check.
+name: The name of the property to check.
+havingValue: The expected value of the property. The bean will be created only if the property has this value.
+matchIfMissing: If set to true, the bean will be created even if the property is missing, provided all other conditions match.
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class MyFeatureConfig {
+
+    @Bean
+    @ConditionalOnProperty(name = "feature.enabled", havingValue = "true")
+    public MyFeatureService myFeatureService() {
+        return new MyFeatureService();
+    }
+}
+
+

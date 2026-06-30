@@ -7,6 +7,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @SpringBootApplication
+
+/*
+@SpringBootApplication is the cornerstone annotation of any Spring Boot application. 
+It is a convenience annotation that combines three other annotations: @SpringBootConfiguration, @EnableAutoConfiguration, and @ComponentScan. 
+This annotation marks the main class of a Spring Boot application and triggers the auto-configuration, component scanning, 
+and other Spring Boot features.
+ */
 public class DemoApplication implements CommandLineRunner {
 	/*
 	Spring is a famous framework for building java applications. But as spring evolved, developers began to 
